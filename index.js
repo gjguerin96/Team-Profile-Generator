@@ -2,9 +2,9 @@ const inquirer = require('inquirer');
 const Employee = require("./lib/Employee")
 const Manager = require("./lib/Manager")
 const Engineer = require("./lib/Engineer")
+const Intern = require("./lib/Intern")
+const fs = require('fs')
 
-// const employee = new Employee();
-// const manager = new Manager();
 
 
 const basicQuestions = [
@@ -25,6 +25,35 @@ const basicQuestions = [
     },
 ]
 
+const introContent = (
+    `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Team Profiles</title>
+</head>
+<body>
+    <header>
+        <div id="title">
+            <h1>Meet the Team</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+    `
+)
+
+// fs.appendFile('./dist/index.html',introContent, (error) =>{
+//     if(error) {throw error}
+//     // console.log("it worked")
+// })
+
 function askForEngineer() {
     inquirer
         .prompt([
@@ -39,11 +68,34 @@ function askForEngineer() {
         ])
         .then((answers) => {
             const engineer = new Engineer(answers.empname,answers.id,answers.email,answers.github);
-            engineer.getName()
-            engineer.getId()
-            engineer.getEmail()
-            engineer.getGithub()
-            engineer.getRole()
+            fs.appendFile('./dist/index.html',engineerCard(), (error) =>{
+                if(error) {throw error}
+                // console.log("it worked")
+            })
+            whatNext()
+        });
+    
+}
+
+function askForIntern() {
+    inquirer
+        .prompt([
+            basicQuestions[0],
+            basicQuestions[1],
+            basicQuestions[2],
+            {
+                type:'input',
+                name: 'school',
+                message: 'Enter school.'
+            }
+        ])
+        .then((answers) => {
+            const intern = new Intern(answers.empname,answers.id,answers.email,answers.school);
+            intern.getName()
+            intern.getId()
+            intern.getEmail()
+            intern.getSchool()
+            intern.getRole()
             whatNext()
         });
     
@@ -89,12 +141,12 @@ function askForManager() {
             }
         ])
         .then((answers) => {
-            const mang = new Manager(answers.empname,answers.id,answers.email,answers.office);
-            mang.getName()
-            mang.getId()
-            mang.getEmail()
-            mang.getOffice()
-            mang.getRole()
+            const manager = new Manager(answers.empname,answers.id,answers.email,answers.office);
+            const manCard = manager.managerCard()
+            fs.appendFile('./dist/index.html',manCard, (error) =>{
+                if(error) {throw error}
+                // console.log("it worked")
+            })
             whatNext()
         });
     
