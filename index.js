@@ -49,10 +49,27 @@ const introContent = (
     `
 )
 
-// fs.appendFile('./dist/index.html',introContent, (error) =>{
-//     if(error) {throw error}
-//     // console.log("it worked")
-// })
+const endContent = (
+    `
+        </div>
+    </main>
+
+</body>
+</html>
+    `
+)
+
+fs.writeFile('./dist/index.html',introContent, (error) =>{
+    if(error) {throw error}
+    // console.log("it worked")
+})
+
+function finishGen() {
+    fs.appendFile('./dist/index.html',endContent, (error) =>{
+        if(error) {throw error}
+    })
+    console.log("Team profile Generated!")
+}
 
 function askForEngineer() {
     inquirer
@@ -63,14 +80,14 @@ function askForEngineer() {
             {
                 type:'input',
                 name: 'github',
-                message: 'Enter github url.'
+                message: 'Enter github username.'
             }
         ])
         .then((answers) => {
             const engineer = new Engineer(answers.empname,answers.id,answers.email,answers.github);
-            fs.appendFile('./dist/index.html',engineerCard(), (error) =>{
+            const engCard = engineer.engineerCard()
+            fs.appendFile('./dist/index.html',engCard, (error) =>{
                 if(error) {throw error}
-                // console.log("it worked")
             })
             whatNext()
         });
@@ -91,11 +108,10 @@ function askForIntern() {
         ])
         .then((answers) => {
             const intern = new Intern(answers.empname,answers.id,answers.email,answers.school);
-            intern.getName()
-            intern.getId()
-            intern.getEmail()
-            intern.getSchool()
-            intern.getRole()
+            const intCard = intern.internCard()
+            fs.appendFile('./dist/index.html',intCard, (error) =>{
+                if(error) {throw error}
+            })
             whatNext()
         });
     
@@ -119,7 +135,7 @@ function whatNext() {
                 askForIntern()
             }
             else {
-                console.log('still working on this one')
+                finishGen()
             }
         });
 }
@@ -145,7 +161,6 @@ function askForManager() {
             const manCard = manager.managerCard()
             fs.appendFile('./dist/index.html',manCard, (error) =>{
                 if(error) {throw error}
-                // console.log("it worked")
             })
             whatNext()
         });
