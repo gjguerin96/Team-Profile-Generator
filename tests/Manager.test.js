@@ -10,6 +10,13 @@ describe('Manager class', () => {
         }
     )})
 
+    describe('getRole', () => {
+        it("should return the role", () => {
+            const str = "Manager"
+            expect(manager.getRole()).toEqual(str)
+        }
+    )})
+
     describe('managerCard', () => {
         it("should return the html for the manager card with values passed into it", () => {
             const str = `

@@ -10,6 +10,13 @@ describe('Intern class', () => {
         }
     )})
 
+    describe('getRole', () => {
+        it("should return the role", () => {
+            const str = "Intern"
+            expect(intern.getRole()).toEqual(str)
+        }
+    )})
+
     describe('internCard', () => {
         it("should return the html for the intern card with values passed into it", () => {
             const str = `
